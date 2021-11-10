@@ -23,3 +23,6 @@ h2 {
 .myCard:hover {
   transform: scale(1.05);
 }
+.pButton {
+  color: #3b7bbf;
+}
