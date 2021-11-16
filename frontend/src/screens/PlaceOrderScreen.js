@@ -67,7 +67,7 @@ const PlaceOrderScreen = ({ history }) => {
               <h2>Payment Method</h2>
               <p>
                 <span className='fw-bold'>Method: </span>
-                <i class='fab fa-cc-paypal pButton'></i> {cart.paymentMethod}
+                <i className='fab fa-cc-paypal pButton'></i> {cart.paymentMethod}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
