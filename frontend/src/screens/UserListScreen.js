@@ -1,12 +1,17 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { LinkContainer } from "react-router-bootstrap"
-import { Table, Button } from "react-bootstrap"
+import { Table, Button, Modal } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
 import { listUsers, deleteUser } from "../actions/userActions"
 
 const UserListScreen = ({ history }) => {
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
   const dispatch = useDispatch()
 
   const userList = useSelector((state) => state.userList)
@@ -27,9 +32,8 @@ const UserListScreen = ({ history }) => {
   }, [dispatch, history, userInfo, successDelete])
 
   const deleteHandler = (id) => {
-    if (window.confirm("Are You sure you want to delete this user?")) {
-      dispatch(deleteUser(id))
-    }
+    dispatch(deleteUser(id))
+    handleClose()
   }
 
   return (
@@ -72,10 +76,36 @@ const UserListScreen = ({ history }) => {
                   <Button
                     variant="danger"
                     className="btn-sm"
-                    onClick={() => deleteHandler(user._id)}
+                    onClick={() => handleShow()}
                   >
                     <i className="fas fa-trash"></i>
                   </Button>
+
+                  {/* Modal for confirmation */}
+                  <Modal
+                    show={show}
+                    onHide={handleClose}
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    rounded
+                  >
+                    <Modal.Body>
+                      Are you sure you want to delete{" "}
+                      <span className="fw-bold text-danger">{user.name}</span> ?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="rounded"
+                        onClick={() => deleteHandler(user._id)}
+                      >
+                        Delete
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                 </td>
               </tr>
             ))}
