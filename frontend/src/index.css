@@ -2,7 +2,7 @@ html {
   background-color: white;
 }
 main {
-  min-height: 80vh;
+  min-height: 100vh;
   background-color: rgb(236, 241, 252);
   transition: all 0.2s ease-in-out;
 }

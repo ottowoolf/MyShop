@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col } from 'react-bootstrap'
-import Product from '../components/Product'
-import { listProducts } from '../actions/productActions'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Row, Col } from "react-bootstrap"
+import Product from "../components/Product"
+import { listProducts } from "../actions/productActions"
+import Message from "../components/Message"
+import Loader from "../components/Loader"
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
@@ -19,11 +19,11 @@ const HomeScreen = () => {
       {loading ? (
         <Loader>Loading...</Loader>
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <Row>
           {products.map((product) => (
-            <Col sm={12} md={6} lg={4} key={product._id}>
+            <Col sm={12} md={4} lg={3} key={product._id}>
               <Product product={product} />
             </Col>
           ))}
