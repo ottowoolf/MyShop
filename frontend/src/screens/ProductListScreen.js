@@ -4,7 +4,7 @@ import { Table, Button, Modal, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
-import { listProducts } from "../actions/productActions"
+import { listProducts, deleteProduct } from "../actions/productActions"
 
 const ProductListScreen = ({ history, match }) => {
   const [show, setShow] = useState(false)
@@ -17,6 +17,13 @@ const ProductListScreen = ({ history, match }) => {
   const productList = useSelector((state) => state.productList)
   const { loading, error, products } = productList
 
+  const productDelete = useSelector((state) => state.productDelete)
+  const {
+    loading: loadingDelete,
+    errorDelete,
+    success: successDelete,
+  } = productDelete
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
@@ -26,11 +33,10 @@ const ProductListScreen = ({ history, match }) => {
     } else {
       history.push("/login")
     }
-  }, [dispatch, history, userInfo])
+  }, [dispatch, history, userInfo, successDelete])
 
   const deleteHandler = (id) => {
-    //TODO
-    //dispatch(deleteProductr(id))
+    dispatch(deleteProduct(id))
     handleClose()
   }
   const createProductHandler = (product) => {
@@ -40,17 +46,21 @@ const ProductListScreen = ({ history, match }) => {
 
   return (
     <>
-      <Row className="align-items-center">
+      <Row className="align-items-center d-block">
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className="text-right">
-          <Button className="my-3" onClick={createProductHandler}>
+        <Col className="text-right ">
+          <Button
+            className="btn btn-success my-3"
+            onClick={createProductHandler}
+          >
             <i className="fas fa-plus"></i> Create Product
           </Button>
         </Col>
       </Row>
-      <h1>Users</h1>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
