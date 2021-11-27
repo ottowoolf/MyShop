@@ -51,8 +51,8 @@ const ProductEditScreen = ({ match, history }) => {
     }
   }, [product, productId, dispatch, history, successUpdate])
 
-  const submitHandler = (e) => {
-    e.preventDefault()
+  const submitHandler = (event) => {
+    event.preventDefault()
 
     dispatch(
       updateProduct({
