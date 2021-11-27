@@ -56,12 +56,12 @@ const UserEditScreen = ({ match, history }) => {
       <FormContainer center>
         <h1>Edit user</h1>
         {loadingUpdate && <Loader />}
-        {errorUpdate && <Message variant="danger">{error}</Message>}
+        {errorUpdate && <Message>{error}</Message>}
 
         {loading ? (
           <Loader />
         ) : error ? (
-          <Message variant="danger">{error}</Message>
+          <Message>{error}</Message>
         ) : (
           <Form
             onSubmit={submitHandler}

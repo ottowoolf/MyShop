@@ -42,7 +42,7 @@ const UserListScreen = ({ history }) => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message>{error}</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>

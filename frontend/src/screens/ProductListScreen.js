@@ -4,7 +4,12 @@ import { Table, Button, Modal, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
-import { listProducts, deleteProduct } from "../actions/productActions"
+import {
+  listProducts,
+  deleteProduct,
+  createProduct,
+} from "../actions/productActions"
+import { PRODUCT_CREATE_RESET } from "../constants/productConstants"
 
 const ProductListScreen = ({ history, match }) => {
   const [show, setShow] = useState(false)
@@ -24,24 +29,43 @@ const ProductListScreen = ({ history, match }) => {
     success: successDelete,
   } = productDelete
 
+  const productCreate = useSelector((state) => state.productCreate)
+  const {
+    loading: loadingCreate,
+    errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts())
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET })
+
+    if (!userInfo.isAdmin) {
       history.push("/login")
     }
-  }, [dispatch, history, userInfo, successDelete])
+    if (successCreate) {
+      history.push(`/admin/product/${createdProduct._id}/edit`)
+    } else {
+      dispatch(listProducts())
+    }
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    successDelete,
+    successCreate,
+    createdProduct,
+  ])
 
   const deleteHandler = (id) => {
     dispatch(deleteProduct(id))
     handleClose()
   }
-  const createProductHandler = (product) => {
-    //TODO
-    //dispatch(createProduct(product))
+  const createProductHandler = () => {
+    dispatch(createProduct())
   }
 
   return (
@@ -60,11 +84,13 @@ const ProductListScreen = ({ history, match }) => {
         </Col>
       </Row>
       {loadingDelete && <Loader />}
-      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+      {errorDelete && <Message>{errorDelete}</Message>}
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message>{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message>{error}</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>
@@ -86,7 +112,7 @@ const ProductListScreen = ({ history, match }) => {
                 <td>{product.brande}</td>
 
                 <td>
-                  <LinkContainer to={`/admin/product${product._id}/edit`}>
+                  <LinkContainer to={`/admin/product/${product._id}/edit`}>
                     <Button variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>
@@ -103,12 +129,12 @@ const ProductListScreen = ({ history, match }) => {
                   <Modal
                     show={show}
                     onHide={handleClose}
-                    aria-labelledby="contained-modal-title-vcenter"
+                    aria-labelledby=""
                     centered
                     rounded
                   >
                     <Modal.Body>
-                      Are you sure you want to delete{" "}
+                      Are you sure you want to delete
                       <span className="fw-bold text-danger">
                         {product.name}
                       </span>
