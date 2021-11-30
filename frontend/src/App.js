@@ -23,8 +23,8 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <main className="py-4">
-        <Container>
+      <main className="p-4">
+        <Container className="px-4" fluid>
           <Route path="/login" component={LoginScreen} />
           <Route path="/payment" component={PaymentScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
@@ -43,6 +43,7 @@ const App = () => {
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/" component={HomeScreen} exact />
+          <Route path="/search/:keyword" component={HomeScreen} />
         </Container>
       </main>
       <Footer />
