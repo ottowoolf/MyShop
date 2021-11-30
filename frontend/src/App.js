@@ -18,11 +18,13 @@ import UserEditScreen from "./screens/UserEditScreen"
 import ProductListScreen from "./screens/ProductListScreen"
 import ProductEditScreen from "./screens/ProductEditScreen"
 import OrderListScreen from "./screens/OrderListScreen"
+import SearchBox from "./components/SearchBox"
 
 const App = () => {
   return (
     <Router>
       <Header />
+      <SearchBox />
       <main className="p-4">
         <Container className="px-4" fluid>
           <Route path="/login" component={LoginScreen} />
@@ -31,7 +33,16 @@ const App = () => {
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/admin/orderlist" component={OrderListScreen} />
 
-          <Route path="/admin/productlist" component={ProductListScreen} />
+          <Route
+            path="/admin/productlist"
+            component={ProductListScreen}
+            exact
+          />
+          <Route
+            path="/admin/productlist/:pageNumber"
+            component={ProductListScreen}
+            exact
+          />
           <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
 
           <Route path="/admin/userlist" component={UserListScreen} />
@@ -42,8 +53,15 @@ const App = () => {
           <Route path="/shipping" component={ShippingScreen} />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
+          <Route path="/search/:keyword" component={HomeScreen} exact />
+          <Route path="/page/:pageNumber" component={HomeScreen} exact />
+          <Route
+            path="/search/:keyword/page/:pageNumber"
+            component={HomeScreen}
+            exact
+          />
+
           <Route path="/" component={HomeScreen} exact />
-          <Route path="/search/:keyword" component={HomeScreen} />
         </Container>
       </main>
       <Footer />
