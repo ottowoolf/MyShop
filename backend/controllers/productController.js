@@ -7,7 +7,7 @@ import Product from "../models/productModel.js"
 //@access public
 
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 8
+  const pageSize = 4
 
   const page = Number(req.query.pageNumber) || 1
 
@@ -149,7 +149,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 //@access Public
 
 const getToProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+  const products = await Product.find({}).sort({ rating: -1 }).limit(5)
   res.json(products)
 })
 
